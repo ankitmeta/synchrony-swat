@@ -1,0 +1,5 @@
+@firstName@,@lastName@,@gender@,@age@,@streetAddress@,@city@,@state@,@postalCode@,@type1@,@number1@,@type2@,@number2@
+Ankit,Nigam,Male,30,XYZ 123,NUR,BAV,90419,home,123456,mob,789456
+Christina,Jo,Female,30,XYZ 234,NUR,BAV,90429,home,3214,mob,456789
+John,Sina,Male,30,XYZ 234,NUR,BAV,90429,home,3214,mob,456789
+Martina,Hanges,Female,30,XYZ 234,NUR,BAV,90429,home,3214,mob,456789

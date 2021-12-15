@@ -1,0 +1,22 @@
+{
+  "firstName": "@firstName@",
+  "lastName": "@lastName@",
+  "gender": "@gender@",
+  "age": "@age@",
+  "address": {
+    "streetAddress": "@streetAddress@",
+    "city": "@city@",
+    "state": "@state@",
+    "postalCode": "@postalCode@"
+  },
+  "phoneNumbers": [
+    {
+      "type": "@type1@",
+      "number": "@number1@"
+    },
+    {
+      "type": "@type2@",
+      "number": "@number2@"
+    }
+  ]
+}
