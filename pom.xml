@@ -17,8 +17,10 @@
 		<log4j.version>2.15.0</log4j.version>
 		<lombok.version>1.18.22</lombok.version>
 		<opencsv.version>3.7</opencsv.version>
-		<restassured.version>4.4.0</restassured.version>
-		<javafaker.version>1.0.2</javafaker.version>
+		<restassured.version>4.3.3</restassured.version>
+		<javafaker.version>1.0.1</javafaker.version>
+		<allure.testng.version>2.17.2</allure.testng.version>
+		<aspectj.version>1.9.8.RC3</aspectj.version>
 	</properties>
 
 	<dependencies>
@@ -56,7 +58,7 @@
 		<dependency>
 			<groupId>io.rest-assured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>4.3.3</version>
+			<version>${restassured.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.rest-assured</groupId>
@@ -66,12 +68,28 @@
 		<dependency>
 			<groupId>com.github.javafaker</groupId>
 			<artifactId>javafaker</artifactId>
-			<version>1.0.1</version>
+			<version>${javafaker.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.12.0</version>
+		</dependency>
+		<dependency>
+			<groupId>io.qameta.allure</groupId>
+			<artifactId>allure-testng</artifactId>
+			<version>${allure.testng.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>7.4.0</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 
@@ -109,5 +127,35 @@
 				</includes>
 			</resource>
 		</resources>
+
+		<plugins>
+			<!-- Added Surefire Plugin configuration to execute tests -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.22.2</version>
+				<configuration>
+					<testFailureIgnore>true</testFailureIgnore>
+					<argLine>
+						-javaagent:"${settings.localRepository}\org\aspectj\aspectjweaver\${aspectj.version}\aspectjweaver-${aspectj.version}.jar"
+					</argLine>
+					<suiteXmlFiles>
+						<suiteXmlFile>src/test/testng.xml</suiteXmlFile>
+					</suiteXmlFiles>
+				</configuration>
+<!--				<dependencies>-->
+<!--					<dependency>-->
+<!--						<groupId>org.aspectj</groupId>-->
+<!--						<artifactId>aspectjweaver</artifactId>-->
+<!--						<version>${aspectj.version}</version>-->
+<!--					</dependency>-->
+<!--				</dependencies>-->
+			</plugin>
+			<plugin>
+				<groupId>io.qameta.allure</groupId>
+				<artifactId>allure-maven</artifactId>
+				<version>2.10.0</version>
+			</plugin>
+		</plugins>
 	</build>
 </project>

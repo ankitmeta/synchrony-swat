@@ -3,9 +3,11 @@ package com.synchrony.synchronyswat.api.services;
 
 import com.synchrony.synchronyswat.api.enums.HttpMethod;
 import com.synchrony.synchronyswat.api.enums.ValidatorOperation;
+import io.qameta.allure.Step;
 import io.restassured.RestAssured;
 import io.restassured.config.HttpClientConfig;
 import io.restassured.config.RestAssuredConfig;
+import io.restassured.internal.path.xml.NodeChildrenImpl;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
@@ -25,6 +27,7 @@ public class ApiImpl implements IApi {
 
 
     @Override
+    @Step("Initialize api")
     public void init(String basURI, String endpoint, int port, HttpMethod method) {
         reqSpec = RestAssured.given()
                 .config(RestAssuredConfig.config().httpClient(HttpClientConfig.httpClientConfig()
@@ -100,6 +103,7 @@ public class ApiImpl implements IApi {
     }
 
     @Override
+    @Step("Call api")
     public void callService() {
         switch (method) {
             case GET -> resp = reqSpec.get(url);
@@ -116,26 +120,29 @@ public class ApiImpl implements IApi {
     }
 
     @Override
+    @Step("Assert status code")
     public void assertIt(int code) {
         resp.then().statusCode(code);
     }
 
     @Override
+    @Step("Assert data")
     public void assertIt(String key, Object val, ValidatorOperation operation) throws AssertionError {
         switch (operation) {
-            case EQUALS -> resp.then().body(key, equalTo(val));
-            case KEY_PRESENTS -> resp.then().body(key, hasKey(key));
-            case NOT_EQUALS -> resp.then().body(key, not(equalTo(val)));
-            case EMPTY -> resp.then().body(key, empty());
-            case NOT_EMPTY -> resp.then().body(key, not(emptyArray()));
-            case NOT_NULL -> resp.then().body(key, notNullValue());
-            case HAS_STRING -> resp.then().body(key, containsString((String) val));
-            case SIZE -> resp.then().body(key, hasSize((int) val));
-            case HAS_ITEM -> resp.then().body(key, hasItem(val));
-            case GREATER_THAN -> resp.then().body(key, greaterThan((int) val));
-            case GREATER_THAN_OR_EQUALTO -> resp.then().body(key, greaterThanOrEqualTo((int) val));
-            case LESS_THAN -> resp.then().body(key, lessThan((int) val));
-            case LESS_THAN_OR_EQUALTO -> resp.then().body(key, lessThanOrEqualTo((int) val));
+            case EQUALS -> resp.then().assertThat().body(key, equalTo(val));
+            case KEY_PRESENTS -> resp.then().assertThat().body(key, hasKey(key));
+            case NOT_EQUALS -> resp.then().assertThat().body(key, not(equalTo(val)));
+            case EMPTY -> resp.then().assertThat().body(key, empty());
+            case NOT_EMPTY -> resp.then().assertThat().body(key, not(emptyArray()));
+            case NOT_NULL -> resp.then().assertThat().body(key, notNullValue());
+            case HAS_STRING -> resp.then().assertThat().body(key, containsString((String) val));
+            case SIZE -> resp.then().assertThat().body(key, hasSize((int) val));
+            case HAS_ITEM -> resp.then().assertThat().body(key, hasItem(val));
+            case GREATER_THAN -> resp.then().assertThat().body(key, greaterThan((int) val));
+            case GREATER_THAN_OR_EQUALTO -> resp.then().assertThat().body(key, greaterThanOrEqualTo((int) val));
+            case LESS_THAN -> resp.then().assertThat().body(key, lessThan((int) val));
+            case LESS_THAN_OR_EQUALTO -> resp.then().assertThat().body(key, lessThanOrEqualTo((int) val));
+            case HAS_XPATH -> resp.then().assertThat().body(hasXPath(key, containsString(val.toString())));
             default -> throw new IllegalArgumentException(String.format("%s assert operation not available", operation));
         }
     }
@@ -153,5 +160,9 @@ public class ApiImpl implements IApi {
     @Override
     public String getResponseBody() {
         return resp.then().log().all().extract().body().asString();
+    }
+
+    public NodeChildrenImpl getXmlNodeFromResponse(String xpath){
+        return resp.then().extract().path(xpath);
     }
 }

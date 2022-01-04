@@ -62,6 +62,7 @@ public class SampleTestsApi {
         Authentication authentication = new Authentication();
         authentication.setClientName("Ankit");
         authentication.setClientEmail(faker.internet().emailAddress());
+
         api.init(apiDomain, getAuthenticateEndPoint, port, HttpMethod.POST);
         api.setHeader("Content-Type", "application/json");
         api.setBody(authentication);
@@ -137,7 +138,7 @@ public class SampleTestsApi {
         System.out.println(api.getResponseBody());
     }
 
-    @Test
+    @Test(priority = 0)
     public void testCSV() throws IOException {
         var records = CsvHelper
                 .getCSVData(IoHelper.getFile(contactCSV), ',');
@@ -150,7 +151,7 @@ public class SampleTestsApi {
         }
     }
 
-    @Test(dataProvider = "ContactsData", dataProviderClass = ContactDataProvider.class)
+    @Test(dataProvider = "ContactsData", dataProviderClass = ContactDataProvider.class, priority = 1)
     public void testCSVUsingDataProvider(String firstName, String lastName, String gender, String age, String streetAddress,
                                          String city, String state, String postalCode, String type1, String number1, String type2,
                                          String number2) throws IOException {

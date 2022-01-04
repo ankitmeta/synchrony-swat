@@ -16,7 +16,7 @@ public class DriverFactory {
     private static WebDriver _driver;
     private DriverFactory(){}
 
-    private static WebDriver createInstance(){
+    private static WebDriver createInstance() {
         String browser = Optional.of(System.getProperty("browser")).orElse("Chrome");
         log.debug("Get driver for browser: {}", browser);
         DriverType driverType = DriverType.valueOf(browser.toUpperCase());
