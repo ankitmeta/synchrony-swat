@@ -3,7 +3,7 @@
 <suite name="Suite">
     <test name="Test">
         <classes>
-            <class name="com.synchrony.synchronyswat.SampleTestsXmlApi"/>
+<!--            <class name="com.synchrony.synchronyswat.SampleTestsXmlApi"/>-->
             <class name="com.synchrony.synchronyswat.SampleTests"/>
         </classes>
     </test> <!-- Test -->
