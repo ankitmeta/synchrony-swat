@@ -17,6 +17,8 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 
 public class SampleTestsApi {
@@ -115,7 +117,7 @@ public class SampleTestsApi {
 
     @Test
     public void testSubmitDynamicOrder() throws IOException {
-        final var jsonPayload = IoHelper.getFileData(IoHelper.getFile(dynamicOrderJson))
+        final String jsonPayload = IoHelper.getFileData(IoHelper.getFile(dynamicOrderJson))
                 .replaceAll("@customerName@", faker.name().name());
 
         api.init(apiDomain, createOrdersEndPoint, port, HttpMethod.POST);
@@ -140,9 +142,9 @@ public class SampleTestsApi {
 
     @Test(priority = 0)
     public void testCSV() throws IOException {
-        var records = CsvHelper
+        List<Map<String, String>> records = CsvHelper
                 .getCSVData(IoHelper.getFile(contactCSV), ',');
-        for (var data : records) {
+        for (Map<String, String> data : records) {
             String payLoad = StringHelper
                     .populateJSONSchemaWithData
                             (IoHelper.getFileData(IoHelper.getFile(contactJson))
@@ -156,7 +158,7 @@ public class SampleTestsApi {
                                          String city, String state, String postalCode, String type1, String number1, String type2,
                                          String number2) throws IOException {
 
-        final var jsonPayload = IoHelper.getFileData(IoHelper.getFile(contactJson))
+        final String jsonPayload = IoHelper.getFileData(IoHelper.getFile(contactJson))
                 .replaceAll("@firstName@", firstName)
                 .replaceAll("@lastName@", lastName)
                 .replaceAll("@gender@", gender)

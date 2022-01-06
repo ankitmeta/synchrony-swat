@@ -3,10 +3,7 @@ package com.synchrony.synchronyswat.utilities;
 import com.opencsv.CSVReader;
 import lombok.extern.log4j.Log4j2;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -17,16 +14,16 @@ public class CsvHelper {
     public static List<Map<String, String>> getCSVData(File file, char delimiter, Integer... args) throws IOException {
         log.info("Get CSV data as List<Map<String, String>> for file: " + file.getName());
         List<Map<String, String>> records = new ArrayList<>();
-        var lineNumber = 1;
-        var startRow = (args.length >= 1) ? args[0] : 0;
-        var endRow = (args.length >= 2) ? args[1] : 0;
+        int lineNumber = 1;
+        int startRow = (args.length >= 1) ? args[0] : 0;
+        int endRow = (args.length >= 2) ? args[1] : 0;
 
         String[] record;
         try(
-                var bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
-                var csvReader = new CSVReader(bufferedReader, delimiter)
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+                CSVReader csvReader = new CSVReader(bufferedReader, delimiter)
                 ){
-            var header = csvReader.readNext();
+            String[] header = csvReader.readNext();
 
             while ((record = csvReader.readNext())!=null){
                 lineNumber++;
@@ -44,11 +41,11 @@ public class CsvHelper {
 
     public static Object[][] getCSVDataForDataProvider(File file, char delimiter) throws IOException {
         log.info("Get CSV data as Object[][] for file: " + file.getName());
-        var records = new ArrayList<Object[]>();
+        List<Object[]> records = new ArrayList<Object[]>();
         String[] record;
         try(
-                var bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8));
-                var csvReader = new CSVReader(bufferedReader, delimiter, '\"', 1)
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8));
+                CSVReader csvReader = new CSVReader(bufferedReader, delimiter, '\"', 1)
         ){
             while ((record = csvReader.readNext())!=null){
                 records.add(Arrays.copyOf(record, record.length, Object[].class));
@@ -59,11 +56,11 @@ public class CsvHelper {
 
     public static Object[][] getCSVDataForDataProvider(String filePath, char delimiter) throws IOException {
         log.info("Get CSV data as Object[][] for file: " + filePath);
-        var records = new ArrayList<Object[]>();
+        List<Object[]> records = new ArrayList<Object[]>();
         String[] record;
         try(
-                var bufferedReader = new BufferedReader(new FileReader(IoHelper.getFile(filePath), StandardCharsets.UTF_8));
-                var csvReader = new CSVReader(bufferedReader, delimiter, '\"', 1)
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(IoHelper.getFile(filePath)), StandardCharsets.UTF_8));
+                CSVReader csvReader = new CSVReader(bufferedReader, delimiter, '\"', 1)
         ){
             while ((record = csvReader.readNext())!=null){
                 records.add(Arrays.copyOf(record, record.length, Object[].class));

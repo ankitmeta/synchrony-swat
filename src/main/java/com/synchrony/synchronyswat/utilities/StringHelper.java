@@ -16,7 +16,7 @@ public class StringHelper {
 
     public static String getDateFormat(Date date, String format){
         log.info("Format date to %s" + format);
-        var simpleDateFormat = new SimpleDateFormat(format);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(format);
         return simpleDateFormat.format(date);
     }
 }

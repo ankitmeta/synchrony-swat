@@ -9,8 +9,8 @@
 	<description>Test automation framework</description>
 	<properties>
 		<java.version>15</java.version>
-		<maven.compiler.source>15</maven.compiler.source>
-		<maven.compiler.target>15</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<selenium.version>4.0.0</selenium.version>
 		<webdrivermanager.version>5.0.3</webdrivermanager.version>
 		<testng.version>7.4.0</testng.version>

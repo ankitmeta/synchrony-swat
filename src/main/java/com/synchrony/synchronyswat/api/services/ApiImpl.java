@@ -106,11 +106,20 @@ public class ApiImpl implements IApi {
     @Step("Call api")
     public void callService() {
         switch (method) {
-            case GET -> resp = reqSpec.get(url);
-            case POST -> resp = reqSpec.post(url);
-            case PUT -> resp = reqSpec.put(url);
-            case DELETE -> resp = reqSpec.delete(url);
-            default -> throw new IllegalArgumentException("Http method type not valid");
+            case GET:
+                resp = reqSpec.get(url);
+                break;
+            case POST:
+                resp = reqSpec.post(url);
+                break;
+            case PUT:
+                resp = reqSpec.put(url);
+                break;
+            case DELETE:
+                resp = reqSpec.delete(url);
+                break;
+            default:
+                throw new IllegalArgumentException("Http method type not valid");
         }
     }
 
@@ -129,21 +138,50 @@ public class ApiImpl implements IApi {
     @Step("Assert data")
     public void assertIt(String key, Object val, ValidatorOperation operation) throws AssertionError {
         switch (operation) {
-            case EQUALS -> resp.then().assertThat().body(key, equalTo(val));
-            case KEY_PRESENTS -> resp.then().assertThat().body(key, hasKey(key));
-            case NOT_EQUALS -> resp.then().assertThat().body(key, not(equalTo(val)));
-            case EMPTY -> resp.then().assertThat().body(key, empty());
-            case NOT_EMPTY -> resp.then().assertThat().body(key, not(emptyArray()));
-            case NOT_NULL -> resp.then().assertThat().body(key, notNullValue());
-            case HAS_STRING -> resp.then().assertThat().body(key, containsString((String) val));
-            case SIZE -> resp.then().assertThat().body(key, hasSize((int) val));
-            case HAS_ITEM -> resp.then().assertThat().body(key, hasItem(val));
-            case GREATER_THAN -> resp.then().assertThat().body(key, greaterThan((int) val));
-            case GREATER_THAN_OR_EQUALTO -> resp.then().assertThat().body(key, greaterThanOrEqualTo((int) val));
-            case LESS_THAN -> resp.then().assertThat().body(key, lessThan((int) val));
-            case LESS_THAN_OR_EQUALTO -> resp.then().assertThat().body(key, lessThanOrEqualTo((int) val));
-            case HAS_XPATH -> resp.then().assertThat().body(hasXPath(key, containsString(val.toString())));
-            default -> throw new IllegalArgumentException(String.format("%s assert operation not available", operation));
+            case EQUALS:
+                resp.then().assertThat().body(key, equalTo(val));
+                break;
+            case KEY_PRESENTS:
+                resp.then().assertThat().body(key, hasKey(key));
+                break;
+            case NOT_EQUALS:
+                resp.then().assertThat().body(key, not(equalTo(val)));
+                break;
+            case EMPTY:
+                resp.then().assertThat().body(key, empty());
+                break;
+            case NOT_EMPTY:
+                resp.then().assertThat().body(key, not(emptyArray()));
+                break;
+            case NOT_NULL:
+                resp.then().assertThat().body(key, notNullValue());
+                break;
+            case HAS_STRING:
+                resp.then().assertThat().body(key, containsString((String) val));
+                break;
+            case SIZE:
+                resp.then().assertThat().body(key, hasSize((int) val));
+                break;
+            case HAS_ITEM:
+                resp.then().assertThat().body(key, hasItem(val));
+                break;
+            case GREATER_THAN:
+                resp.then().assertThat().body(key, greaterThan((int) val));
+                break;
+            case GREATER_THAN_OR_EQUALTO:
+                resp.then().assertThat().body(key, greaterThanOrEqualTo((int) val));
+                break;
+            case LESS_THAN:
+                resp.then().assertThat().body(key, lessThan((int) val));
+                break;
+            case LESS_THAN_OR_EQUALTO:
+                resp.then().assertThat().body(key, lessThanOrEqualTo((int) val));
+                break;
+            case HAS_XPATH:
+                resp.then().assertThat().body(hasXPath(key, containsString(val.toString())));
+                break;
+            default:
+                throw new IllegalArgumentException(String.format("%s assert operation not available", operation));
         }
     }
 
